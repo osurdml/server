@@ -482,22 +482,28 @@ public class AirboatService extends Service {
 		// This is now a foreground service
 		{
 			// Set up the icon and ticker text
-			int icon = R.drawable.icon; // TODO: change this to notification
-										// icon
+			int icon = R.drawable.beaver_icon; // TODO: change this to notification icon
 			CharSequence tickerText = "Running normally.";
 			long when = System.currentTimeMillis();
 
 			// Set up the actual title and text
-			CharSequence contentTitle = "Airboat Server";
-			CharSequence contentText = tickerText;
+			CharSequence contentTitle = "OSU Lutra";
 			Intent notificationIntent = new Intent(this, AirboatActivity.class);
 			PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
 					notificationIntent, 0);
 
 			// Add a notification to the menu
-			Notification notification = new Notification(icon, tickerText, when);
-			notification.setLatestEventInfo(context, contentTitle, contentText,
-					contentIntent);
+            //CharSequence contentText = tickerText;
+            //Notification notification = new Notification(icon, tickerText, when);
+			//notification.setLatestEventInfo(context, contentTitle, contentText,
+			//		contentIntent);
+            Notification notification = new Notification.Builder(context)
+                    .setContentTitle(contentTitle)
+                    .setContentText(tickerText)
+                    .setContentIntent(contentIntent)
+                    .setSmallIcon(icon)
+                    .setWhen(when)
+                    .build();
 			startForeground(SERVICE_ID, notification);
 		}
 
@@ -602,7 +608,7 @@ public class AirboatService extends Service {
 		NotificationManager notificationManager = (NotificationManager) getSystemService(ns);
 
 		// Set up the icon and ticker text
-		int icon = R.drawable.icon; // TODO: change this to notification icon
+		int icon = R.drawable.beaver_icon; // TODO: change this to notification icon
 		CharSequence tickerText = text;
 		long when = System.currentTimeMillis();
 
@@ -612,11 +618,18 @@ public class AirboatService extends Service {
 		CharSequence contentText = text;
 		Intent notificationIntent = new Intent(this, AirboatService.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				notificationIntent, 0);
+                notificationIntent, 0);
 
-		Notification notification = new Notification(icon, tickerText, when);
-		notification.setLatestEventInfo(context, contentTitle, contentText,
-				contentIntent);
+		// Notification notification = new Notification(icon, tickerText, when);
+        // notification.setLatestEventInfo(context, contentTitle, contentText,
+        //         contentIntent);
+        Notification notification = new Notification.Builder(context)
+				.setContentTitle(contentTitle)
+                .setContentText(tickerText)
+                .setContentIntent(contentIntent)
+                .setSmallIcon(icon)
+				.setWhen(when)
+				.build();
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
 		notificationManager.notify(SERVICE_ID, notification);
