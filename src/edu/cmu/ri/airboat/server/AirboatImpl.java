@@ -412,7 +412,7 @@ public class AirboatImpl extends AbstractVehicleServer {
                             String nmea = value.getString("nmea");
                             if (nmea.startsWith("$SDDBT")) { //Depth Below Transducer
                                 try {
-									// DBT Specification: DBT,x.x,f,x.x,M,x.x,F*hh<CR><LF>
+									// DBT Specification: DBT,x.x,f,x.x,M,x.x,F*hh
 									// Fields:	[0] - DBT string
 									//			[1] - Depth in ft
 									//			[3] - Depth in m
@@ -429,7 +429,19 @@ public class AirboatImpl extends AbstractVehicleServer {
                                     Log.w(logTag, "Failed to parse depth reading: " + nmea);
                                 }
                             }else if (nmea.startsWith("$SDMTW")){ //Water Temperature
-
+                                try {
+                                    // MTW Specification: MTW,x.x,C*hh
+                                    // Fields:	[0] - MTW string
+                                    //			[1] - Temp in deg. C
+                                    double DO = Double.parseDouble(nmea.split(",")[1]);
+                                    SensorData reading = new SensorData();
+                                    reading.type = SensorType.TE;
+                                    reading.channel = sensor;
+                                    reading.data = new double[] { DO };
+                                    sendSensor(sensor, reading);
+                                } catch(Exception e) {
+                                    Log.w(logTag, "Failed to parse depth reading: " + nmea);
+                                }
 							}else if (nmea.startsWith("$SDRMC")){ //GPS
 
 							}else{
