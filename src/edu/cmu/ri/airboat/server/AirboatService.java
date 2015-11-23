@@ -29,6 +29,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.code.microlog4android.LoggerFactory;
 import com.google.code.microlog4android.appender.FileAppender;
@@ -313,6 +314,7 @@ public class AirboatService extends Service {
 		_fileAppender.setFormatter(formatter);
 		try {
 			_fileAppender.open();
+			Toast.makeText(this, "Logging to file: " + logFilename, Toast.LENGTH_SHORT).show();
 		} catch (IOException e) {
 			Log.w(TAG, "Failed to open data log file: " + logFilename, e);
 			sendNotification("Failed to open log: " + e.getMessage());

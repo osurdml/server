@@ -412,10 +412,15 @@ public class AirboatImpl extends AbstractVehicleServer {
                             String nmea = value.getString("nmea");
                             if (nmea.startsWith("$SDDBT")) { //Depth Below Transducer
                                 try {
+									// DBT Specification: DBT,x.x,f,x.x,M,x.x,F*hh<CR><LF>
+									// Fields:	[0] - DBT string
+									//			[1] - Depth in ft
+									//			[3] - Depth in m
+									//			[5] - Depth in fathoms
                                     double DO = Double.parseDouble(nmea.split(",")[3]);
 
                                     SensorData reading = new SensorData();
-                                    reading.type = SensorType.UNKNOWN;
+                                    reading.type = SensorType.DEPTH;
                                     reading.channel = sensor;
                                     reading.data = new double[] { DO };
 
