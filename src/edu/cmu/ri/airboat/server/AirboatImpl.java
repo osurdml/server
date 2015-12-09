@@ -64,6 +64,9 @@ public class AirboatImpl extends AbstractVehicleServer {
     // TODO: Remove this variable, it is totally arbitrary
     private double winch_depth_ = Double.NaN;
 
+	// Conversion to metres for sonar depth
+	private static final double FEET2METRES = 0.3048;
+
     public enum VehicleType {
         DIFFERENTIAL_THRUST,
         VECTORED_THRUST,
@@ -417,7 +420,10 @@ public class AirboatImpl extends AbstractVehicleServer {
 									//			[1] - Depth in ft
 									//			[3] - Depth in m
 									//			[5] - Depth in fathoms
-                                    double DO = Double.parseDouble(nmea.split(",")[3]);
+									// NOTE: Switched to feet output on Dec 12 2015 due to limited
+									// (one decimal place) resolution with m.
+                                    double DO = Double.parseDouble(nmea.split(",")[1]);
+									DO = DO*FEET2METRES;
 
                                     SensorData reading = new SensorData();
                                     reading.type = SensorType.DEPTH;
