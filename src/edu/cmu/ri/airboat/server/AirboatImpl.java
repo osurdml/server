@@ -386,17 +386,26 @@ public class AirboatImpl extends AbstractVehicleServer {
 							SensorData reading = new SensorData();
 							String[] data = value.getString("data").trim().split(" ");
 							reading.channel = sensor;
-                            reading.type = SensorType.TE;
+							reading.type = SensorType.TE;
 //							double temp = value.getDouble("data");
 //							String tem = value.getString("data");
 							//logger.info("Data"+ data[0]+" " + data[1]);
-							reading.data = new double[] {
+							reading.data = new double[]{
 									Double.parseDouble(data[0]),
 									Double.parseDouble(data[1])
-								};
+							};
 							//reading.data = new double[]{5.0,1.5};
 							sendSensor(sensor, reading);
-
+						} else if (type.equalsIgnoreCase("wind")) {
+								SensorData reading = new SensorData();
+								String[] data = value.getString("data").trim().split(" ");
+								reading.channel = sensor;
+								reading.type = SensorType.UNKNOWN;
+								reading.data = new double[] {
+										Double.parseDouble(data[0]),
+										Double.parseDouble(data[1])
+								};
+								sendSensor(sensor, reading);
 					    }else if (type.equalsIgnoreCase("atlas")) {
 							SensorData reading = new SensorData();
 							String[] data = value.getString("data").trim().split(",");
